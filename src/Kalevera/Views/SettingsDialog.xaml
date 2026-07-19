@@ -30,9 +30,9 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="18"
-                                       VerticalAlignment="Center" Margin="0,0,10,0"
-                                       Foreground="{DynamicResource PrimaryTextBrush}" />
+                            <Image Source="/Assets/icon-settings.png" Width="18" Height="18"
+                                   Margin="0,0,10,0" VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
                             <TextBlock Text="Settings" FontSize="16" FontWeight="SemiBold"
                                        Foreground="{DynamicResource PrimaryTextBrush}"
                                        VerticalAlignment="Center" />

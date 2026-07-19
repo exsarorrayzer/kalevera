@@ -62,6 +62,9 @@
                                 FontSize="11.5"
                                 ToolTip="Import a fetch() command from browser DevTools">
                             <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/icon-import.png" Width="14" Height="14"
+                                       Margin="0,0,6,0" VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="HighQuality" />
                                 <TextBlock Text="Import Fetch" FontSize="11.5" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
@@ -72,6 +75,9 @@
                                 FontSize="11.5"
                                 ToolTip="Save current request">
                             <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/icon-save.png" Width="14" Height="14"
+                                       Margin="0,0,6,0" VerticalAlignment="Center"
+                                       RenderOptions.BitmapScalingMode="HighQuality" />
                                 <TextBlock Text="Save" FontSize="11.5" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
@@ -80,12 +86,11 @@
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <Button Style="{DynamicResource FlatButton}"
                                 Click="Settings_Click"
-                                Width="36" Height="36" FontSize="14"
-                                FontFamily="Segoe MDL2 Assets"
+                                Width="36" Height="36"
                                 ToolTip="Settings"
                                 Foreground="{DynamicResource SecondaryTextBrush}">
-                            <TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14"
-                                       VerticalAlignment="Center" />
+                            <Image Source="/Assets/icon-settings.png" Width="16" Height="16"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
                         </Button>
                         <Button Style="{DynamicResource FlatButton}" Click="Minimize_Click"
                                 Width="46" Height="36" ToolTip="Minimize">

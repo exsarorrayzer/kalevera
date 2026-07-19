@@ -33,18 +33,38 @@
                                     <ContextMenu>
                                         <MenuItem Header="Load"
                                                   Command="{Binding DataContext.SavedRequestsVM.LoadRequestCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                  CommandParameter="{Binding}" />
+                                                  CommandParameter="{Binding}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Assets/icon-load.png" Width="16" Height="16"
+                                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                         <MenuItem Header="Save Current Here"
                                                   Click="OverwriteSavedRequest_Click"
-                                                  Tag="{Binding}" />
+                                                  Tag="{Binding}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Assets/icon-save.png" Width="16" Height="16"
+                                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                         <MenuItem Header="Copy"
                                                   Command="{Binding DataContext.SavedRequestsVM.CopyRequestCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                  CommandParameter="{Binding}" />
+                                                  CommandParameter="{Binding}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Assets/icon-copy.png" Width="16" Height="16"
+                                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                         <Separator />
                                         <MenuItem Header="Delete"
                                                   Click="DeleteSavedRequest_Click"
                                                   Tag="{Binding}"
-                                                  Foreground="{DynamicResource AccentRedBrush}" />
+                                                  Foreground="{DynamicResource AccentRedBrush}">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Assets/icon-delete.png" Width="16" Height="16"
+                                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </Button.ContextMenu>
                                 <StackPanel Orientation="Horizontal">
@@ -88,8 +108,18 @@
 
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Save Current" Click="SaveCurrent_Click" />
-                    <MenuItem Header="Add New Empty" Click="AddNewEmpty_Click" />
+                    <MenuItem Header="Save Current" Click="SaveCurrent_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/icon-save.png" Width="16" Height="16"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Add New Empty" Click="AddNewEmpty_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/Assets/icon-add.png" Width="16" Height="16"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>

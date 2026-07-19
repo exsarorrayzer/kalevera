@@ -17,6 +17,15 @@
 
   <ItemGroup>
     <Resource Include="..\..\kalevra.png" Link="kalevra.png" />
+    <Resource Include="Assets\icon-settings.png" />
+    <Resource Include="Assets\icon-import.png" />
+    <Resource Include="Assets\icon-save.png" />
+    <Resource Include="Assets\icon-send.png" />
+    <Resource Include="Assets\icon-load.png" />
+    <Resource Include="Assets\icon-copy.png" />
+    <Resource Include="Assets\icon-delete.png" />
+    <Resource Include="Assets\icon-add.png" />
+    <Resource Include="Assets\icon-export.png" />
   </ItemGroup>
 
 </Project>
