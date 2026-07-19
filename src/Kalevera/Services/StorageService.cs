@@ -15,18 +15,18 @@ public class StorageService
         Directory.CreateDirectory(_basePath);
     }
 
-    private string CollectionsPath => Path.Combine(_basePath, "collections.json");
+    private string SavedRequestsPath => Path.Combine(_basePath, "saved-requests.json");
     private string HistoryPath => Path.Combine(_basePath, "history.json");
     private string EnvironmentsPath => Path.Combine(_basePath, "environments.json");
 
-    public List<Collection> LoadCollections()
+    public List<HttpRequestModel> LoadSavedRequests()
     {
-        return LoadFromFile<List<Collection>>(CollectionsPath) ?? new();
+        return LoadFromFile<List<HttpRequestModel>>(SavedRequestsPath) ?? new();
     }
 
-    public void SaveCollections(List<Collection> collections)
+    public void SaveSavedRequests(List<HttpRequestModel> requests)
     {
-        SaveToFile(CollectionsPath, collections);
+        SaveToFile(SavedRequestsPath, requests);
     }
 
     public List<RequestHistoryEntry> LoadHistory()

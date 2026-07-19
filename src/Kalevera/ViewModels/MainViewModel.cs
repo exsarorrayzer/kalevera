@@ -13,7 +13,7 @@ public partial class MainViewModel : ObservableObject
 
     public RequestViewModel RequestVM { get; } = new();
     public ResponseViewModel ResponseVM { get; } = new();
-    public CollectionsViewModel CollectionsVM { get; } = new();
+    public SavedRequestsViewModel SavedRequestsVM { get; } = new();
     public EnvironmentsViewModel EnvironmentsVM { get; } = new();
     public FetchConverterViewModel FetchConverterVM { get; } = new();
     public SettingsViewModel SettingsVM { get; } = new();
@@ -31,7 +31,7 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel()
     {
-        CollectionsVM.RequestSelected += (_, req) => RequestVM.LoadRequest(req);
+        SavedRequestsVM.RequestSelected += (_, req) => RequestVM.LoadRequest(req);
         FetchConverterVM.RequestParsed += (_, req) =>
         {
             RequestVM.LoadRequest(req);
@@ -40,8 +40,8 @@ public partial class MainViewModel : ObservableObject
 
     public void LoadData()
     {
-        var collections = _storage.LoadCollections();
-        CollectionsVM.LoadCollections(collections);
+        var savedRequests = _storage.LoadSavedRequests();
+        SavedRequestsVM.LoadSavedRequests(savedRequests);
 
         var environments = _storage.LoadEnvironments();
         EnvironmentsVM.LoadEnvironments(environments);
@@ -54,7 +54,7 @@ public partial class MainViewModel : ObservableObject
 
     public void SaveData()
     {
-        _storage.SaveCollections(CollectionsVM.GetCollections());
+        _storage.SaveSavedRequests(SavedRequestsVM.GetSavedRequests());
         _storage.SaveEnvironments(EnvironmentsVM.GetEnvironments());
         _storage.SaveHistory(History.ToList());
     }
@@ -132,15 +132,14 @@ public partial class MainViewModel : ObservableObject
     {
         var request = RequestVM.Request;
         if (string.IsNullOrWhiteSpace(request.Url)) return;
-        if (CollectionsVM.SelectedCollection == null) return;
 
-        CollectionsVM.SelectedCollection.Requests.Add(new HttpRequestModel
+        SavedRequestsVM.SavedRequests.Add(new HttpRequestModel
         {
             Name = request.Name,
             Method = request.Method,
             Url = request.Url,
-            Headers = new List<RequestHeader>(request.Headers),
-            Parameters = new List<RequestParameter>(request.Parameters),
+            Headers = request.Headers.Select(h => new RequestHeader { Key = h.Key, Value = h.Value, IsEnabled = h.IsEnabled }).ToList(),
+            Parameters = request.Parameters.Select(p => new RequestParameter { Key = p.Key, Value = p.Value, IsEnabled = p.IsEnabled }).ToList(),
             BodyType = request.BodyType,
             BodyContent = request.BodyContent,
             AuthType = request.AuthType,

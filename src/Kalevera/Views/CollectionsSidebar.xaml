@@ -13,116 +13,86 @@
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Padding="12,10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="COLLECTIONS" FontSize="10" FontWeight="SemiBold"
-                           Foreground="{DynamicResource SecondaryTextBrush}"
-                           VerticalAlignment="Center" />
-                <Button Grid.Column="1"
-                        Style="{DynamicResource FlatButton}"
-                        Command="{Binding CollectionsVM.AddCollectionCommand}"
-                        Padding="6,2" ToolTip="Add Collection">
-                    <Path Data="M 6,0 L 6,12 M 0,6 L 12,6"
-                          Stroke="{DynamicResource AccentRedBrush}"
-                          StrokeThickness="1.5" Stretch="Uniform" Width="12" Height="12" />
-                </Button>
-            </Grid>
+            <TextBlock Text="SAVED REQUESTS" FontSize="10" FontWeight="SemiBold"
+                       Foreground="{DynamicResource SecondaryTextBrush}"
+                       VerticalAlignment="Center" />
         </Border>
 
         <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="{DynamicResource BorderBrush}" />
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding CollectionsVM.Collections}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type models:Collection}">
-                        <StackPanel Margin="0,2">
-                            <Border Padding="10,6" Cursor="Hand"
-                                    Background="{DynamicResource TertiaryBgBrush}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text=">" FontSize="10" FontWeight="Bold" Margin="0,0,6,0"
+        <Grid Grid.Row="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding SavedRequestsVM.SavedRequests}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:HttpRequestModel}">
+                            <Button Style="{DynamicResource SidebarButton}"
+                                    Command="{Binding DataContext.SavedRequestsVM.LoadRequestCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Margin="0,1">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Load"
+                                                  Command="{Binding DataContext.SavedRequestsVM.LoadRequestCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                  CommandParameter="{Binding}" />
+                                        <MenuItem Header="Save Current Here"
+                                                  Click="OverwriteSavedRequest_Click"
+                                                  Tag="{Binding}" />
+                                        <MenuItem Header="Copy"
+                                                  Command="{Binding DataContext.SavedRequestsVM.CopyRequestCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                  CommandParameter="{Binding}" />
+                                        <Separator />
+                                        <MenuItem Header="Delete"
+                                                  Click="DeleteSavedRequest_Click"
+                                                  Tag="{Binding}"
+                                                  Foreground="{DynamicResource AccentRedBrush}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontSize="10" FontWeight="Bold"
+                                               VerticalAlignment="Center" Width="42"
+                                               HorizontalAlignment="Left">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{DynamicResource AccentRedBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Method}" Value="GET">
+                                                        <Setter Property="Foreground" Value="#4CAF50" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Method}" Value="POST">
+                                                        <Setter Property="Foreground" Value="#FFC107" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Method}" Value="PUT">
+                                                        <Setter Property="Foreground" Value="#2196F3" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Method}" Value="DELETE">
+                                                        <Setter Property="Foreground" Value="#E63946" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Method}" Value="PATCH">
+                                                        <Setter Property="Foreground" Value="#9C27B0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                        <Run Text="{Binding Method, Mode=OneWay}" />
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Name}" FontSize="12"
+                                               Foreground="{DynamicResource SecondaryTextBrush}"
                                                VerticalAlignment="Center"
-                                               Foreground="{DynamicResource SecondaryTextBrush}" />
-                                    <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold"
-                                               Foreground="{DynamicResource PrimaryTextBrush}"
-                                               VerticalAlignment="Center" />
-                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
-                                        <Button Style="{DynamicResource FlatButton}"
-                                                Command="{Binding DataContext.CollectionsVM.AddRequestCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}"
-                                                Padding="4,1" ToolTip="Add Request">
-                                            <Path Data="M 5,0 L 5,10 M 0,5 L 10,5"
-                                                  Stroke="{DynamicResource SecondaryTextBrush}"
-                                                  StrokeThickness="1.5" Stretch="Uniform" Width="10" Height="10" />
-                                        </Button>
-                                        <Button Style="{DynamicResource FlatButton}"
-                                                Command="{Binding DataContext.CollectionsVM.RemoveCollectionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}"
-                                                Padding="4,1" ToolTip="Remove">
-                                            <Path Data="M 1.5,1.5 L 8.5,8.5 M 8.5,1.5 L 1.5,8.5"
-                                                  Stroke="{DynamicResource AccentRedBrush}"
-                                                  StrokeThickness="1.2" Stretch="Uniform" Width="10" Height="10" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
 
-                            <ItemsControl ItemsSource="{Binding Requests}" Margin="12,0,0,0">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type models:HttpRequestModel}">
-                                        <Button Style="{DynamicResource SidebarButton}"
-                                                Command="{Binding DataContext.CollectionsVM.SelectRequestCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}"
-                                                Margin="0,1">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock FontSize="10" FontWeight="Bold"
-                                                           VerticalAlignment="Center" Width="42"
-                                                           HorizontalAlignment="Left">
-                                                    <TextBlock.Style>
-                                                        <Style TargetType="TextBlock">
-                                                            <Setter Property="Foreground" Value="{DynamicResource AccentRedBrush}" />
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Method}" Value="GET">
-                                                                    <Setter Property="Foreground" Value="#4CAF50" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Method}" Value="POST">
-                                                                    <Setter Property="Foreground" Value="#FFC107" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Method}" Value="PUT">
-                                                                    <Setter Property="Foreground" Value="#2196F3" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Method}" Value="DELETE">
-                                                                    <Setter Property="Foreground" Value="#E63946" />
-                                                                </DataTrigger>
-                                                                <DataTrigger Binding="{Binding Method}" Value="PATCH">
-                                                                    <Setter Property="Foreground" Value="#9C27B0" />
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </TextBlock.Style>
-                                                    <Run Text="{Binding Method, Mode=OneWay}" />
-                                                </TextBlock>
-                                                <TextBlock Text="{Binding Name}" FontSize="12"
-                                                           Foreground="{DynamicResource SecondaryTextBrush}"
-                                                           VerticalAlignment="Center"
-                                                           TextTrimming="CharacterEllipsis" />
-                                            </StackPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Save Current" Click="SaveCurrent_Click" />
+                    <MenuItem Header="Add New Empty" Click="AddNewEmpty_Click" />
+                </ContextMenu>
+            </Grid.ContextMenu>
+        </Grid>
 
         <Border Grid.Row="2" Padding="12,10">
             <Grid>

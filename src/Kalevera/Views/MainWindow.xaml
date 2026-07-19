@@ -70,7 +70,7 @@
                                 Click="SaveRequest_Click"
                                 Padding="10,4"
                                 FontSize="11.5"
-                                ToolTip="Save current request to selected collection">
+                                ToolTip="Save current request">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Save" FontSize="11.5" VerticalAlignment="Center" />
                             </StackPanel>
