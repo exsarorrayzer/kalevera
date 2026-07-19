@@ -26,6 +26,7 @@
     <Resource Include="Assets\icon-delete.png" />
     <Resource Include="Assets\icon-add.png" />
     <Resource Include="Assets\icon-export.png" />
+    <Resource Include="Assets\icon-github.png" />
   </ItemGroup>
 
 </Project>
