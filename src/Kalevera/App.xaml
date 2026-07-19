@@ -1,0 +1,20 @@
+﻿<Application x:Class="Kalevera.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:Kalevera.Views"
+             xmlns:converters="clr-namespace:Kalevera.Converters"
+             StartupUri="Views/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/DarkRedTheme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+<converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+            <views:BoolToVisibilityConverter x:Key="BoolToVis" />
+            <views:InverseBoolToVisibilityConverter x:Key="InvBoolToVis" />
+            <views:StringToVisibilityConverter x:Key="StringToVis" />
+            <views:InverseStringToVisibilityConverter x:Key="InvStringToVis" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

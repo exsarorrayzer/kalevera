@@ -1,0 +1,229 @@
+<UserControl x:Class="Kalevera.Views.RequestBuilder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:Kalevera.Models"
+             xmlns:local="clr-namespace:Kalevera.Views"
+             Margin="12,8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- URL Bar Row -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Method Selector -->
+            <ComboBox Grid.Column="0"
+                      ItemsSource="{Binding Methods}"
+                      SelectedItem="{Binding Request.Method}"
+                      Margin="0,0,6,0"
+                      Height="36"
+                      FontSize="13"
+                      FontWeight="SemiBold"
+                      Foreground="{DynamicResource AccentRedBrush}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="SemiBold" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <!-- URL Input -->
+            <TextBox Grid.Column="1"
+                     Text="{Binding Request.Url, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="14"
+                     Padding="12,8"
+                     Margin="0,0,6,0"
+                     VerticalContentAlignment="Center">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Background" Value="{DynamicResource TertiaryBgBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <!-- Send Button -->
+            <Button Grid.Column="2"
+                    Content="Send"
+                    Click="Send_Click"
+                    Padding="20,8"
+                    Margin="0,0,6,0"
+                    Height="36"
+                    FontSize="13"
+                    FontWeight="Bold"
+                    Cursor="Hand" />
+
+            <!-- New Button -->
+            <Button Grid.Column="3"
+                    Style="{DynamicResource FlatButton}"
+                    Click="NewRequest_Click"
+                    Padding="10,8"
+                    Height="36"
+                    ToolTip="New Request">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M 5,0 L 5,10 M 0,5 L 10,5"
+                          Stroke="{DynamicResource SecondaryTextBrush}"
+                          StrokeThickness="1.5" Stretch="Uniform" Width="10" Height="10"
+                          VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <TextBlock Text="New" FontSize="12" VerticalAlignment="Center"
+                               Foreground="{DynamicResource SecondaryTextBrush}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Tabs: Params, Headers, Body, Auth -->
+        <TabControl Grid.Row="1" Margin="0,8,0,0" Height="180">
+            <TabItem Header="Params">
+                <DataGrid ItemsSource="{Binding Request.Parameters}"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          SelectionMode="Single"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          AutoGenerateColumns="False"
+                          Background="{DynamicResource SecondaryBgBrush}"
+                          Foreground="{DynamicResource PrimaryTextBrush}"
+                          BorderThickness="0">
+
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Header="" Binding="{Binding IsEnabled, Mode=TwoWay}" Width="35" />
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                        <DataGridTextColumn Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                        <DataGridTemplateColumn Header="" Width="40">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{DynamicResource FlatButton}"
+                                            Command="{Binding DataContext.RemoveParameterCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Padding="4,2">
+                                        <Path Data="M 1.5,1.5 L 8.5,8.5 M 8.5,1.5 L 1.5,8.5"
+                                              Stroke="{DynamicResource AccentRedBrush}"
+                                              StrokeThickness="1.2" Stretch="Uniform" Width="10" Height="10" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Headers">
+                <DataGrid ItemsSource="{Binding Request.Headers}"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          SelectionMode="Single"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          AutoGenerateColumns="False"
+                          Background="{DynamicResource SecondaryBgBrush}"
+                          Foreground="{DynamicResource PrimaryTextBrush}"
+                          BorderThickness="0">
+
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Header="" Binding="{Binding IsEnabled, Mode=TwoWay}" Width="35" />
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                        <DataGridTextColumn Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                        <DataGridTemplateColumn Header="" Width="40">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{DynamicResource FlatButton}"
+                                            Command="{Binding DataContext.RemoveHeaderCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Padding="4,2">
+                                        <Path Data="M 1.5,1.5 L 8.5,8.5 M 8.5,1.5 L 1.5,8.5"
+                                              Stroke="{DynamicResource AccentRedBrush}"
+                                              StrokeThickness="1.2" Stretch="Uniform" Width="10" Height="10" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Body">
+                <Grid Margin="0,8,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+                        <RadioButton Content="None" IsChecked="{Binding Request.BodyType, Converter={x:Static local:BodyTypeConverter.Instance}, ConverterParameter=None}"
+                                     Margin="0,0,12,0" Foreground="{DynamicResource PrimaryTextBrush}" />
+                        <RadioButton Content="JSON" Margin="0,0,12,0"
+                                     IsChecked="{Binding Request.BodyType, Converter={x:Static local:BodyTypeConverter.Instance}, ConverterParameter=Json}"
+                                     Foreground="{DynamicResource PrimaryTextBrush}" />
+                        <RadioButton Content="Form" Margin="0,0,12,0"
+                                     IsChecked="{Binding Request.BodyType, Converter={x:Static local:BodyTypeConverter.Instance}, ConverterParameter=Form}"
+                                     Foreground="{DynamicResource PrimaryTextBrush}" />
+                        <RadioButton Content="Raw" Margin="0,0,12,0"
+                                     IsChecked="{Binding Request.BodyType, Converter={x:Static local:BodyTypeConverter.Instance}, ConverterParameter=Raw}"
+                                     Foreground="{DynamicResource PrimaryTextBrush}" />
+                    </StackPanel>
+
+                    <TextBox Grid.Row="1"
+                             Text="{Binding Request.BodyContent, UpdateSourceTrigger=PropertyChanged}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             FontFamily="Consolas"
+                             FontSize="12"
+                             Background="{DynamicResource TertiaryBgBrush}"
+                             Foreground="{DynamicResource PrimaryTextBrush}"
+                             BorderBrush="{DynamicResource BorderBrush}"
+                             BorderThickness="1"
+                             Padding="8" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Auth">
+                <StackPanel Margin="12,12,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <TextBlock Text="Auth Type:" Foreground="{DynamicResource SecondaryTextBrush}"
+                                   VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <ComboBox ItemsSource="{Binding AuthTypes}"
+                                  SelectedItem="{Binding Request.AuthType}"
+                                  Width="160"
+                                  Height="30"
+                                  FontSize="12" />
+                    </StackPanel>
+
+                    <!-- Basic Auth -->
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding Request.AuthType, Converter={x:Static local:AuthTypeVisibilityConverter.Instance}, ConverterParameter=Basic}">
+                        <TextBlock Text="Username:" Foreground="{DynamicResource SecondaryTextBrush}"
+                                   VerticalAlignment="Center" Width="80" />
+                        <TextBox Text="{Binding Request.AuthUsername, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="220" Margin="0,0,20,0" />
+                        <TextBlock Text="Password:" Foreground="{DynamicResource SecondaryTextBrush}"
+                                   VerticalAlignment="Center" Width="80" />
+                        <TextBox Text="{Binding Request.AuthPassword, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="220" />
+                    </StackPanel>
+
+                    <!-- Bearer Token -->
+                    <StackPanel Orientation="Horizontal"
+                                Visibility="{Binding Request.AuthType, Converter={x:Static local:AuthTypeVisibilityConverter.Instance}, ConverterParameter=Bearer}">
+                        <TextBlock Text="Token:" Foreground="{DynamicResource SecondaryTextBrush}"
+                                   VerticalAlignment="Center" Width="80" />
+                        <TextBox Text="{Binding Request.AuthToken, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="460" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
