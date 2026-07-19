@@ -134,32 +134,36 @@
                             <StackPanel>
                                 <TextBlock Text="Kalevera" FontSize="15" FontWeight="SemiBold"
                                            Foreground="{DynamicResource AccentRedBrush}" />
-                                <TextBlock Text="v1.0.0" FontSize="11"
+                                <TextBlock Text="v1.0" FontSize="11"
                                            Foreground="{DynamicResource SecondaryTextBrush}"
-                                           Margin="0,2,0,10" />
+                                           Margin="0,2,0,12" />
 
-                                <TextBlock Text="A fast, lightweight API client built with WPF and .NET 8."
-                                           FontSize="12.5"
+                                <Separator Background="{DynamicResource BorderBrush}" Margin="0,0,0,12" />
+
+                                <TextBlock Text="Made By" FontSize="12"
                                            Foreground="{DynamicResource SecondaryTextBrush}"
-                                           TextWrapping="Wrap" Margin="0,0,0,8" />
+                                           Margin="0,0,0,4" />
 
-                                <Separator Background="{DynamicResource BorderBrush}" Margin="0,4,0,8" />
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                    <TextBlock Text="Rayzer" FontSize="13" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource PrimaryTextBrush}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
 
-                                <TextBlock FontSize="12" Foreground="{DynamicResource SecondaryTextBrush}">
-                                    <Run Text="Built with" Foreground="{DynamicResource SecondaryTextBrush}" />
-                                    <Run Text=".NET 8" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" />
-                                    <Run Text=" + " />
-                                    <Run Text="WPF" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" />
-                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Cursor="Hand"
+                                            MouseLeftButtonDown="GitHubLink_Click">
+                                    <Image Source="/Assets/icon-export.png" Width="14" Height="14"
+                                           Margin="0,0,6,0" VerticalAlignment="Center"
+                                           RenderOptions.BitmapScalingMode="HighQuality" />
+                                    <TextBlock Text="github.com/exsarorrayzer" FontSize="11"
+                                               Foreground="{DynamicResource AccentRedBrush}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
 
-                                <TextBlock FontSize="12" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,4,0,0">
-                                    <Run Text="MVVM Toolkit" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" />
-                                    <Run Text=" for architecture" />
-                                </TextBlock>
-
-                                <TextBlock FontSize="12" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,4,0,0">
-                                    <Run Text="Newtonsoft.Json" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryTextBrush}" />
-                                    <Run Text=" for serialization" />
+                                <TextBlock FontSize="11"
+                                           Foreground="{DynamicResource SecondaryTextBrush}">
+                                    <Run Text="Contact: " />
+                                    <Run Text="theleapy@proton.me" Foreground="{DynamicResource PrimaryTextBrush}" />
                                 </TextBlock>
                             </StackPanel>
                         </Border>
